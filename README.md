@@ -127,4 +127,4 @@ modifying [main_inference.py](https://github.com/marchmelo0923/SimplerEnv-Openvl
 
 # Citation
 
-Thanks to []() and []()
+Thanks to [Simpler Env](https://github.com/simpler-env/SimplerEnv) and [OpenVLA OFT](https://github.com/moojink/openvla-oft)
