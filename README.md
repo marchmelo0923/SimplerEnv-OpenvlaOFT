@@ -51,8 +51,8 @@ pip install git+https://github.com/nathanrooy/simulated-annealing
 ## OpenVLA-OFT Install
 ```
 # Create and activate conda environment
-conda create -n openvla-oft python=3.10 -y
-conda activate openvla-oft
+conda create -n openvla_oft python=3.10 -y
+conda activate openvla_oft
 
 # Install PyTorch
 # Use a command specific to your machine: https://pytorch.org/get-started/locally/
@@ -71,6 +71,45 @@ pip install "flash-attn==2.5.5" --no-build-isolation
 
 # Get Started
 
+### Deploy model server
+
+First, download OFT model(trained on bridge v2)
+```
+huggingface-cli download shylee/bridge_oft2
+```
+
+Second, modify deploy_openvla.sh file
+```
+...
+
+python openvla-oft/vla-scripts/deploy.py \
+  --pretrained_checkpoint {fill here} \
+  --use_l1_regression True \
+  --use_film False \
+  --num_images_in_input 1 \
+  --use_proprio True \
+  --center_crop False \
+  --unnorm_key bridge_dataset \
+  --host $HOST \
+  --port $PORT
+```
+
+Deploy OpenVLA-OFT server
+```
+conda activate openvla_oft
+cd {this_repo}
+bash deploy_openvla.sh
+```
+
+### run benchmark
+
+open new bash, and run the simplerenv scripts
+```
+conda activate simpler_env
+cd {this_repo}/SimplerEnv
+bash scripts/oft_bridge.sh
+```
+
 # Troubleshooting
 
 If you encounter issues such as
@@ -80,3 +119,12 @@ Some required Vulkan extension is not present. You may not use the renderer to r
 Segmentation fault (core dumped)
 ```
 Follow [this link](https://maniskill.readthedocs.io/en/latest/user_guide/getting_started/installation.html#vulkan) to troubleshoot the issue. (Even though the doc points to SAPIEN 3 and ManiSkill3, the troubleshooting section still applies to the current environments that use SAPIEN 2.2 and ManiSkill2).
+
+# Additional Tips
+
+If you want to serve new type of model,
+modifying [main_inference.py](https://github.com/marchmelo0923/SimplerEnv-OpenvlaOFT/blob/main/SimplerEnv/simpler_env/main_inference.py), and add new policy to [simpler_env/policies](https://github.com/marchmelo0923/SimplerEnv-OpenvlaOFT/tree/main/SimplerEnv/simpler_env/policies) repository.
+
+# Citation
+
+Thanks to []() and []()
