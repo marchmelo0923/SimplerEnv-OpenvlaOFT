@@ -1,6 +1,6 @@
 # Recommended docker setup
 ```
-docker run --gpus all -it -e NVIDIA_DRIVER_CAPABILITIES=all --name sylee_2_cuda12.1     -v /NAS:/NAS     -v /SSD:/SSD     pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel
+docker run --gpus all -it -e NVIDIA_DRIVER_CAPABILITIES=all --name my_simplerenv_container    -v /NAS:/NAS     -v /SSD:/SSD     pytorch/pytorch:2.2.0-cuda12.1-cudnn8-devel
 ```
 If NVIDIA_DRIVER_CAPABILITIES=all option is missing, docker may not found proper graphic driver.
 
