@@ -56,6 +56,7 @@ conda activate openvla_oft
 
 # Install PyTorch
 # Use a command specific to your machine: https://pytorch.org/get-started/locally/
+# You may skip here, if you start with 'Recommended Docker' setup.
 pip3 install torch torchvision torchaudio
 
 # Clone openvla-oft repo and pip install to download dependencies
@@ -78,27 +79,11 @@ First, download OFT model(trained on bridge v2)
 huggingface-cli download shylee/bridge_oft2
 ```
 
-Second, modify deploy_openvla.sh file
-```
-...
-
-python openvla-oft/vla-scripts/deploy.py \
-  --pretrained_checkpoint {fill here} \
-  --use_l1_regression True \
-  --use_film False \
-  --num_images_in_input 1 \
-  --use_proprio True \
-  --center_crop False \
-  --unnorm_key bridge_dataset \
-  --host $HOST \
-  --port $PORT
-```
-
 Deploy OpenVLA-OFT server
 ```
 conda activate openvla_oft
 cd {this_repo}
-bash deploy_openvla.sh
+OFT_MODEL_PATH={your model path} bash deploy_openvla.sh
 ```
 
 ### run benchmark
