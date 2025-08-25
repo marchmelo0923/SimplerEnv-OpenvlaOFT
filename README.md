@@ -102,8 +102,62 @@ If you encounter issues such as
 RuntimeError: vk::Instance::enumeratePhysicalDevices: ErrorInitializationFailed
 Some required Vulkan extension is not present. You may not use the renderer to render, however, CPU resources will be still available.
 Segmentation fault (core dumped)
+RuntimeError: vk::PhysicalDevice::createDeviceUnique: ErrorExtensionNotPresent
 ```
-Follow [this link](https://maniskill.readthedocs.io/en/latest/user_guide/getting_started/installation.html#vulkan) to troubleshoot the issue. (Even though the doc points to SAPIEN 3 and ManiSkill3, the troubleshooting section still applies to the current environments that use SAPIEN 2.2 and ManiSkill2).
+
+To solve this, You may create 3 files
+
+```
+vim /usr/sahre/vulkan/icd.d/nvidia_icd.json
+# paste below contents
+{
+    "file_format_version" : "1.0.0",
+    "ICD": {
+        "library_path": "libGLX_nvidia.so.0",
+        "api_version" : "1.2.155"
+    }
+}
+```
+
+```
+vim /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+# paste below contents
+{
+    "file_format_version" : "1.0.0",
+    "ICD" : {
+        "library_path" : "libEGL_nvidia.so.0"
+    }
+}
+```
+
+```
+vim /etc/vulkan/implicit_layer.d/nvidia_layers.json
+# paste below contents
+{
+    "file_format_version" : "1.0.0",
+    "layer": {
+        "name": "VK_LAYER_NV_optimus",
+        "type": "INSTANCE",
+        "library_path": "libGLX_nvidia.so.0",
+        "api_version" : "1.2.155",
+        "implementation_version" : "1",
+        "description" : "NVIDIA Optimus layer",
+        "functions": {
+            "vkGetInstanceProcAddr": "vk_optimusGetInstanceProcAddr",
+            "vkGetDeviceProcAddr": "vk_optimusGetDeviceProcAddr"
+        },
+        "enable_environment": {
+            "__NV_PRIME_RENDER_OFFLOAD": "1"
+        },
+        "disable_environment": {
+            "DISABLE_LAYER_NV_OPTIMUS_1": ""
+        }
+    }
+}
+```
+
+Follow [this link](https://maniskill.readthedocs.io/en/latest/user_guide/getting_started/installation.html#vulkan) to troubleshoot the issue and get more information. (Even though the doc points to SAPIEN 3 and ManiSkill3, the troubleshooting section still applies to the current environments that use SAPIEN 2.2 and ManiSkill2).
+
 
 # Additional Tips
 

@@ -5,7 +5,7 @@ declare -a policy_models=(
 "oft"
 )
 
-root_dir=/SSD/LSY/oft_results
+root_dir=/SSD/oft_simplerenv_results
 timestamp=$(date +%Y%m%d_%H%M%S)
 logging_dir=${root_dir}/${timestamp}/
 
